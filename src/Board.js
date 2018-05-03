@@ -101,6 +101,13 @@
       );
     },
 
+    print: function () {
+      let container = this.rows();
+      for (var i = 0; i < container.length; i++) {
+        console.log(container[i])
+      }
+    },
+
     /*
          _             _     _
      ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
@@ -173,21 +180,21 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function (majorDiagonalColumnIndexAtFirstRow) {
-      var result = 0;
-      var rowIndex = 0;
-      var colIndex = majorDiagonalColumnIndexAtFirstRow;
-      while (colIndex < this.get('n') && rowIndex < this.get('n')) {
-        // check to see if we are in in bounds
-        if (this._isInBounds(rowIndex, colIndex)) {
-          //check the cell to see if it contains 1
-          if (this.get(rowIndex)[colIndex] === 1) {
-            result++;
-          }
-        }
-        rowIndex++;
-        colIndex++;
-      }
-      return result > 1 ? true : false;
+      // var result = 0;
+      // var rowIndex = 0;
+      // var colIndex = majorDiagonalColumnIndexAtFirstRow;
+      // while (colIndex < this.get('n') && rowIndex < this.get('n')) {
+      //   // check to see if we are in in bounds
+      //   if (this._isInBounds(rowIndex, colIndex)) {
+      //     //check the cell to see if it contains 1
+      //     if (this.get(rowIndex)[colIndex] === 1) {
+      //       result++;
+      //     }
+      //   }
+      //   rowIndex++;
+      //   colIndex++;
+      // }
+      // return result > 1 ? true : false;
     },
 
     // test if any major diagonals on this board contain conflicts
@@ -205,21 +212,21 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function (minorDiagonalColumnIndexAtFirstRow) {
-      var result = 0;
-      var rowIndex = 0;
-      var colIndex = minorDiagonalColumnIndexAtFirstRow;
-      while (colIndex > -this.get('n') && rowIndex < this.get('n')) {
-        // check to see if we are in in bounds
-        if (this._isInBounds(rowIndex, colIndex)) {
-          //check the cell to see if it contains 1
-          if (this.get(rowIndex)[colIndex] === 1) {
-            result++;
-          }
-        }
-        rowIndex++;
-        colIndex--;
-      }
-      return result > 1 ? true : false;
+      // var result = 0;
+      // var rowIndex = 0;
+      // var colIndex = minorDiagonalColumnIndexAtFirstRow;
+      // while (colIndex > -this.get('n') && rowIndex < this.get('n')) {
+      //   // check to see if we are in in bounds
+      //   if (this._isInBounds(rowIndex, colIndex)) {
+      //     //check the cell to see if it contains 1
+      //     if (this.get(rowIndex)[colIndex] === 1) {
+      //       result++;
+      //     }
+      //   }
+      //   rowIndex++;
+      //   colIndex--;
+      // }
+      // return result > 1 ? true : false;
     },
 
     // test if any minor diagonals on this board contain conflicts
