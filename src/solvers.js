@@ -34,86 +34,141 @@ window.findNRooksSolution = function (n) {
       }
     }
   }
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  // console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution.rows();
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
-window.countNRooksSolutions = function (n) {
+window.countNRooksSolutions = function (inputN) {
   var solutions = [];
-  var startingBoard = new Board(0);
-
-
-
-
-
-  //inner recursion function(inputBoard)
-    // base case is if inputBoard.get('n') = n;
-      //then we have found a solution.
-      //add solution board to solutions array
-    // for each cell in the row
-      //add row to board - creates a new board
-      //set n
-      //toggle piece
-      //check to see if there is a column conflict
-        //if no,
-          //recurse with new board
-
-  //return solutions.length
-
-
-var findRookSolution = function (inputBoard) {
-  if (inputBoard.get('n') === n) {
-    solutions.push(inputBoard)
-  } else {
-    for(var cell = 0; cell < n; cell++) {
-      
+  var startingBoard = new Board({ n: 0 });
+  startingBoard.attributes.n = inputN;
+  var findRookSolution = function (inputBoard) {
+    // debugger
+    let numRows = inputBoard.rows().filter(row => row !== undefined).length;
+    if (numRows === inputN) {
+      solutions.push(inputBoard)
+    } else {
+      for (var col = 0; col < inputN; col++) {
+        var copy = new Board({ n: 0 })
+        //for each row in inputBoard
+        for (var i = 0; i < numRows; i++) {
+          //make copy row same as inputBoard row
+          copy.set(i, inputBoard.get(i));
+        }
+        var newRow = new Array(inputN);
+        //for loop that populates the new row with 0's and a 1 in the right place
+        for (var j = 0; j < newRow.length; j++) {
+          if (j === col) {
+            newRow[j] = 1;
+          } else {
+            newRow[j] = 0
+          }
+        }
+        copy.set(numRows, newRow)
+        copy.attributes.n = inputBoard.attributes.n;
+        //if no conflicts, recurse on the new copy of the board
+        if (!copy.hasAnyColConflicts()) {
+          findRookSolution(copy);
+        }
+      }
     }
   }
-}
-
-
-
-
-
-  // for (var i = 0; i < n; i++) {
-  //   var findRookSolution = function (boardInput) {
-  //     if (boardInput.get('n') === n){
-  //       solutionCount++;
-  //     } else {
-  //       //create a new board with the contents of the input board;
-  //       //for each cell in the row, we want to check to see if there will be a column conflict
-  //         //if there isn't a col conflict, 
-  //           //place a rook there 
-  //           //recurse on new board 
-  //     }
-  //     for (var cell = 0; cell < n; cell++) {
-  //       if (!this.hasColConflictAt(cell)) {
-  //         this.togglePiece(row, cell);
-  //       }
-  //     }
-  //   }
-  //   //inner recursion function
-  //   //base case: if we place on the last row, increment solutionCount;
-  //   //else
-  //   //check each cell of a row, and if there are no col conflicts, place on that cell, recurse on next row;
-  // }
-  console.log('Number of solutions for ' + n + ' rooks:', solutions.length);
+  findRookSolution(startingBoard)
+  // console.log('Number of solutions for ' + inputN + ' rooks:', solutions.length);
   return solutions.length;
 };
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
-window.findNQueensSolution = function (n) {
-  var solution = undefined; //fixme
-
-  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-  return solution;
+window.findNQueensSolution = function (inputN) {
+  // var solutions = [];
+  // if (inputN === 0) {
+  //   return 0;
+  // } else if (inputN === 2) {
+  //   return 0;
+  // } else if (inputN === 3) {
+  //   return 0;
+  // }
+  // var startingBoard = new Board({ n: 0 });
+  // startingBoard.attributes.n = inputN;
+  // var findRookSolution = function (inputBoard) {
+  //   let numRows = inputBoard.rows().filter(row => row !== undefined).length;
+  //   if (numRows === inputN) {
+  //     solutions.push(inputBoard)
+  //   } else {
+  //     for (var col = 0; col < inputN; col++) {
+  //       var copy = new Board({ n: 0 })
+  //       //for each row in inputBoard
+  //       for (var i = 0; i < numRows; i++) {
+  //         //make copy row same as inputBoard row
+  //         copy.set(i, inputBoard.get(i));
+  //       }
+  //       var newRow = new Array(inputN);
+  //       //for loop that populates the new row with 0's and a 1 in the right place
+  //       for (var j = 0; j < newRow.length; j++) {
+  //         if (j === col) {
+  //           newRow[j] = 1;
+  //         } else {
+  //           newRow[j] = 0
+  //         }
+  //       }
+  //       copy.set(numRows, newRow)
+  //       copy.attributes.n = inputBoard.attributes.n;
+  //       //if no conflicts, recurse on the new copy of the board
+  //       if (!copy.hasAnyColConflicts() && !copy.hasAnyMajorDiagonalConflicts() && !copy.hasAnyMinorDiagonalConflicts()) {
+  //         findRookSolution(copy);
+  //       }
+  //     }
+  //   }
+  // }
+  // findRookSolution(startingBoard)
+  // console.log('Number of solutions for ' + n + ' queens:', solutionCount);
+  
+  // return solutions.pop();
 };
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
-window.countNQueensSolutions = function (n) {
-  var solutionCount = undefined; //fixme
-
+window.countNQueensSolutions = function (inputN) {
+  var solutions = [];
+  if (inputN === 0) {
+    return 1;
+  }
+  if (inputN === 1) {
+    return 1;
+  }
+  var startingBoard = new Board({ n: 0 });
+  startingBoard.attributes.n = inputN;
+  var findRookSolution = function (inputBoard) {
+    let numRows = inputBoard.rows().filter(row => row !== undefined).length;
+    if (numRows === inputN) {
+      solutions.push(inputBoard)
+    } else {
+      for (var col = 0; col < inputN; col++) {
+        var copy = new Board({ n: 0 })
+        //for each row in inputBoard
+        for (var i = 0; i < numRows; i++) {
+          //make copy row same as inputBoard row
+          copy.set(i, inputBoard.get(i));
+        }
+        var newRow = new Array(inputN);
+        //for loop that populates the new row with 0's and a 1 in the right place
+        for (var j = 0; j < newRow.length; j++) {
+          if (j === col) {
+            newRow[j] = 1;
+          } else {
+            newRow[j] = 0
+          }
+        }
+        copy.set(numRows, newRow)
+        copy.attributes.n = inputBoard.attributes.n;
+        //if no conflicts, recurse on the new copy of the board
+        if (!copy.hasAnyColConflicts() && !copy.hasAnyMajorDiagonalConflicts() && !copy.hasAnyMinorDiagonalConflicts()) {
+          findRookSolution(copy);
+        }
+      }
+    }
+  }
+  findRookSolution(startingBoard)
+  return solutions.length;
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
-  return solutionCount;
 };
