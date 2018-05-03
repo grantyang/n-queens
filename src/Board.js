@@ -154,7 +154,7 @@
     hasColConflictAt: function (colIndex) {
       var result = 0;
       for (var i = 0; i < this.get('n'); i++) {
-        if (this.get(i)[colIndex] === 1) {
+        if (this.get(i) !== undefined && this.get(i)[colIndex] === 1) {
           result++;
         }
       }

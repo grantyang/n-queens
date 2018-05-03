@@ -40,10 +40,66 @@ window.findNRooksSolution = function (n) {
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function (n) {
-  var solutionCount = undefined; //fixme
+  var solutions = [];
+  var startingBoard = new Board(0);
 
-  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
-  return solutionCount;
+
+
+
+
+  //inner recursion function(inputBoard)
+    // base case is if inputBoard.get('n') = n;
+      //then we have found a solution.
+      //add solution board to solutions array
+    // for each cell in the row
+      //add row to board - creates a new board
+      //set n
+      //toggle piece
+      //check to see if there is a column conflict
+        //if no,
+          //recurse with new board
+
+  //return solutions.length
+
+
+var findRookSolution = function (inputBoard) {
+  if (inputBoard.get('n') === n) {
+    solutions.push(inputBoard)
+  } else {
+    for(var cell = 0; cell < n; cell++) {
+      
+    }
+  }
+}
+
+
+
+
+
+  // for (var i = 0; i < n; i++) {
+  //   var findRookSolution = function (boardInput) {
+  //     if (boardInput.get('n') === n){
+  //       solutionCount++;
+  //     } else {
+  //       //create a new board with the contents of the input board;
+  //       //for each cell in the row, we want to check to see if there will be a column conflict
+  //         //if there isn't a col conflict, 
+  //           //place a rook there 
+  //           //recurse on new board 
+  //     }
+  //     for (var cell = 0; cell < n; cell++) {
+  //       if (!this.hasColConflictAt(cell)) {
+  //         this.togglePiece(row, cell);
+  //       }
+  //     }
+  //   }
+  //   //inner recursion function
+  //   //base case: if we place on the last row, increment solutionCount;
+  //   //else
+  //   //check each cell of a row, and if there are no col conflicts, place on that cell, recurse on next row;
+  // }
+  console.log('Number of solutions for ' + n + ' rooks:', solutions.length);
+  return solutions.length;
 };
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
