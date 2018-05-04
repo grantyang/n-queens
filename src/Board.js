@@ -175,6 +175,31 @@
       return false;
     },
 
+    //new ones
+    willHaveColConflictAt: function (colIndex) {
+      var result = 0;
+      for (var i = 0; i < this.get('n'); i++) {
+        if (this.get(i) !== undefined && this.get(i)[colIndex] === 1) {
+          result++;
+        }
+      }
+
+      if (result > 0) {
+        return true;
+      }
+      return false;
+    },
+
+    // test if any columns on this board contain conflicts
+    willHaveAnyColConflicts: function () {
+      for (var i = 0; i < this.get('n'); i++) {
+        if (this.willHaveColConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
+    },
+
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
     //
@@ -200,7 +225,6 @@
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function () {
-
       for (var i = -this.get('n') + 1; i < this.get('n'); i++) {
         if (this.hasMajorDiagonalConflictAt(i)) {
           return true;

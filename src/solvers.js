@@ -39,36 +39,37 @@ window.findNRooksSolution = function (n) {
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
+
 window.countNRooksSolutions = function (inputN) {
   var solutions = [];
   var startingBoard = new Board({ n: 0 });
   startingBoard.attributes.n = inputN;
+
   var findRookSolution = function (inputBoard) {
-    // debugger
     let numRows = inputBoard.rows().filter(row => row !== undefined).length;
+    
     if (numRows === inputN) {
       solutions.push(inputBoard)
     } else {
       for (var col = 0; col < inputN; col++) {
-        var copy = new Board({ n: 0 })
-        //for each row in inputBoard
-        for (var i = 0; i < numRows; i++) {
-          //make copy row same as inputBoard row
-          copy.set(i, inputBoard.get(i));
-        }
         var newRow = new Array(inputN);
-        //for loop that populates the new row with 0's and a 1 in the right place
-        for (var j = 0; j < newRow.length; j++) {
-          if (j === col) {
-            newRow[j] = 1;
-          } else {
-            newRow[j] = 0
+        if (!inputBoard.willHaveColConflictAt(col)) {
+          var copy = new Board({ n: 0 })
+          //for each row in inputBoard
+          for (var i = 0; i < numRows; i++) {
+            //make copy row same as inputBoard row
+            copy.set(i, inputBoard.get(i));
           }
-        }
-        copy.set(numRows, newRow)
-        copy.attributes.n = inputBoard.attributes.n;
-        //if no conflicts, recurse on the new copy of the board
-        if (!copy.hasAnyColConflicts()) {
+          //for loop that populates the new row with 0's and a 1 in the right place
+          for (var j = 0; j < newRow.length; j++) {
+            if (j === col) {
+              newRow[j] = 1;
+            } else {
+              newRow[j] = 0
+            }
+          }
+          copy.set(numRows, newRow)
+          copy.attributes.n = inputBoard.attributes.n;
           findRookSolution(copy);
         }
       }
@@ -85,16 +86,19 @@ window.findNQueensSolution = function (inputN) {
   if (inputN === 0) {
     return [];
   } else if (inputN === 2) {
-    let solution = new Board({n:2})
+    let solution = new Board({ n: 2 })
     return solution.rows();
   } else if (inputN === 3) {
-    let solution = new Board({n:3})
+    let solution = new Board({ n: 3 })
     return solution.rows();
   }
   var startingBoard = new Board({ n: 0 });
   startingBoard.attributes.n = inputN;
   var findQueenSolution = function (inputBoard) {
     let numRows = inputBoard.rows().filter(row => row !== undefined).length;
+    if (solutions.length > 0) {
+      return;
+    }
     if (numRows === inputN) {
       solutions.push(inputBoard)
     } else {
@@ -126,7 +130,7 @@ window.findNQueensSolution = function (inputN) {
   findQueenSolution(startingBoard)
 
   console.log('Single solution for ' + inputN + ' queens:', JSON.stringify(solutions[0]));
-  console.log( solutions[0].rows())
+  console.log(solutions[0].rows())
   return solutions[0].rows();
 };
 
@@ -163,7 +167,7 @@ window.countNQueensSolutions = function (inputN) {
           }
         }
         copy.set(numRows, newRow)
-        copy.attributes.n = inputBoard.attributes.n;
+        copy.attributes.n = inputBoard.attributes.n
         //if no conflicts, recurse on the new copy of the board
         if (!copy.hasAnyColConflicts() && !copy.hasAnyMajorDiagonalConflicts() && !copy.hasAnyMinorDiagonalConflicts()) {
           findQueenSolution(copy);
