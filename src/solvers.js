@@ -47,7 +47,7 @@ window.countNRooksSolutions = function (inputN) {
 
   var findRookSolution = function (inputBoard) {
     let numRows = inputBoard.rows().filter(row => row !== undefined).length;
-    
+
     if (numRows === inputN) {
       solutions.push(inputBoard)
     } else {
@@ -151,26 +151,27 @@ window.countNQueensSolutions = function (inputN) {
       solutions.push(inputBoard)
     } else {
       for (var col = 0; col < inputN; col++) {
-        var copy = new Board({ n: 0 })
-        //for each row in inputBoard
-        for (var i = 0; i < numRows; i++) {
-          //make copy row same as inputBoard row
-          copy.set(i, inputBoard.get(i));
-        }
         var newRow = new Array(inputN);
-        //for loop that populates the new row with 0's and a 1 in the right place
-        for (var j = 0; j < newRow.length; j++) {
-          if (j === col) {
-            newRow[j] = 1;
-          } else {
-            newRow[j] = 0
+        if (!inputBoard.willHaveColConflictAt(col) && !inputBoard.willMajorDiagonalConflictAt(inputBoard._getFirstRowColumnIndexForMajorDiagonalOn(numRows, col)) &&
+          !inputBoard.willMinorDiagonalConflictAt(inputBoard._getFirstRowColumnIndexForMinorDiagonalOn(numRows, col))) {
+          var copy = new Board({ n: 0 })
+          //for each row in inputBoard
+          for (var i = 0; i < numRows; i++) {
+            //make copy row same as inputBoard row
+            copy.set(i, inputBoard.get(i));
           }
-        }
-        copy.set(numRows, newRow)
-        copy.attributes.n = inputBoard.attributes.n
-        //if no conflicts, recurse on the new copy of the board
-        if (!copy.hasAnyColConflicts() && !copy.hasAnyMajorDiagonalConflicts() && !copy.hasAnyMinorDiagonalConflicts()) {
+          //for loop that populates the new row with 0's and a 1 in the right place
+          for (var j = 0; j < newRow.length; j++) {
+            if (j === col) {
+              newRow[j] = 1;
+            } else {
+              newRow[j] = 0
+            }
+          }
+          copy.set(numRows, newRow)
+          copy.attributes.n = inputBoard.attributes.n
           findQueenSolution(copy);
+
         }
       }
     }
